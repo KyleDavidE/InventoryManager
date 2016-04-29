@@ -1,0 +1,85 @@
+body{
+	background:#fcfcfc;
+	display:flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+main{
+	flex-grow:1;
+	padding-top:16px;
+}
+.catagory-chip{
+	color:#fff;
+}
+.catagory-switcher{
+	display:flex;
+	background-white;
+	background:white;
+	align-items:center;
+	padding:8px;
+}
+.catagory-switcher--chips{
+	flex:1;
+	display:flex;
+	flex-wrap:wrap;
+}
+.catagory-switcher--chips .chip{
+	margin:2px;
+}
+
+/*
+if sidebar is used
+header, main, footer {
+	padding-left: 240px;
+}
+*/
+@media only screen and (max-width : 992px) {
+	header, main, footer {
+		padding-left: 0;
+	}
+}
+
+x-page-props{
+	display:none;
+
+}
+.page-title{
+display:inline-block;
+  color: #fff;
+ 
+  font-size: 2.1rem;
+  padding: 0;
+  margin:0 16px;
+  white-space: nowrap;
+  flex:1;
+}
+.collection .collection-item.paginate{
+	padding: 0px 0px;
+}
+.collection .paginate .waves-effect{
+	padding: 10px 20px;
+}
+.collection .paginate, .collection .paginate>span, .collection .paginate a{
+	display:flex;
+	flex:1;
+	justify-content: center;
+}
+.nav-wrapper{
+	display:flex;
+}
+.nav-wrapper a{
+	align-self: center;
+	align-items: center;
+	display:flex;
+	justify-content: center;
+}
+.nav-wrapper i.material-icons{
+	
+	line-height: 1em;
+	height:auto;
+
+}
+.detail{
+	margin:8px 0px;
+	padding:4px;
+}

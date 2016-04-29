@@ -1,0 +1,16 @@
+{
+  "name": "inventory",
+  "authors": [
+    "KyleDavidE <Kyle.Ehrlich@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "directory": "app/webroot/bower_components",
+  "dependencies": {
+    "Materialize": "materialize#^0.97.6"
+  }
+}
