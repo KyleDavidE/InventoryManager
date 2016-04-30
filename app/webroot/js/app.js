@@ -62,7 +62,20 @@ $(function() {
                     data: self.serialize()
                 });
             }));
-        })
+        });
+
+        $('.category-picker').each(function(){
+            var picker = $(this);
+            picker.find('.category-picker-chip').on('click',function(){
+                picker.find('.category-picker-chip.active').removeClass('active');
+                var self = $(this);
+                self.addClass('active');
+                var color = self.data('color');
+                setTheme(color);
+                $('input.picker-target').val(self.attr('value')).trigger('change');
+                $('.chip.picker-target').removeClass(Object.keys(mdColors).join(' ')).addClass(color).text(self.text());
+            });
+        });
     }
 
     function magicLinkgo(e) {

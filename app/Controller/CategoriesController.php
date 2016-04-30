@@ -11,11 +11,22 @@ class CategoriesController extends AppController {
     );
     
     public function chips() {
+        $named = $this->request->params['named'];
     	$this->Paginator->settings = $this->paginate;
     	
     	$data = $this->Paginator->paginate('Category');
     	
         $this->set('categories', $data);
+        $this->set('isPicker', false);
+        if(array_key_exists('picker',$named)){
+            $this->loadModel('Product');
+            $product = $this->Product->findById($named['picker']);
+            if($product){
+                $this->set('isPicker', true);
+                $this->set('pickerTarget', $product);
+            }
+            
+        }
     }
     public function view($id = null) {
         $named = $this->request->params['named'];

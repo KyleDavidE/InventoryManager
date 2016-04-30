@@ -1,0 +1,2 @@
+<x-page-props data-theme-color="<?php echo  $product['Category']['color']?>" data-show-back="true" data-title="<?php echo htmlspecialchars($product['Product']['name']) ?>"></x-page-props>
+<?php echo $this->element('detailsBlock',array('item' => $product['Product'])); ?>

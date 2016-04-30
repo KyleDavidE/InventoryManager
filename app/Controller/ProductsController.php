@@ -10,8 +10,19 @@ class ProductsController extends AppController {
     )
   );
   public function index() {
-    
 
+  }
+  public function view($id = null) {
+      $named = $this->request->params['named'];
+      if (!$id) {
+          throw new NotFoundException(__('Invalid product'));
+      }
+      $product = $this->Product->findById($id);
+      if (!$product) {
+          throw new NotFoundException(__('Invalid product'));
+      }
+     
+      $this->set('product',$product);
   }
   public function items() {
     $this->set('hasCategory',array_key_exists('category',$this->params['named']));
@@ -25,5 +36,29 @@ class ProductsController extends AppController {
 
 
     $this->set('products', $data);
+  }
+  public function edit($id = null){
+      if (!$id) {
+          throw new NotFoundException(__('Invalid product'));
+      }
+
+      $product = $this->Product->findById($id);
+      if (!$product) {
+          throw new NotFoundException(__('Invalid product'));
+      }
+
+      if ($this->request->is(array('post', 'put'))) {
+          $this->Product->id = $id;
+          if ($this->Product->save($this->request->data)) {
+              // $this->Flash->success(__('Your post has been updated.'));
+              return "DONE";
+          }
+          // $this->Flash->error(__('Unable to update your post.'));
+      }
+
+      if (!$this->request->data) {
+          $this->request->data = $product;
+          $this->set('product',$product);
+      }
   }
 }

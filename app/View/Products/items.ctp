@@ -12,13 +12,16 @@ $this->Paginator->options(array(
 	  ?>
 	<?php foreach ($products as $product): ?>
 			<div class="collection-item">
-				
-					<?php echo htmlspecialchars($product['Product']['name']); ?>
+					<span><?php echo htmlspecialchars($product['Product']['name']); ?></span>
 					<?php if(!$hasCategory):
 						echo $this->element('CategoryChip', array(
    							"category" => $product
 						)); 
 					 endif ?>
+					
+					<a href="<?php echo htmlspecialchars($this->Html->url(array('action' => 'edit', $product['Product']['id'])))?>" data-magic-link-frame="content" data-magic-link-history="push" class="waves-effect waves-circle item-button"> 
+						<i class="material-icons">edit</i>
+					</a>
 			</div>
 		<?php endforeach; ?>
 		<?php 
