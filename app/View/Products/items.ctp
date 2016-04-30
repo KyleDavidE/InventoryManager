@@ -14,9 +14,9 @@ $this->Paginator->options(array(
 			<div class="collection-item">
 				
 					<?php echo htmlspecialchars($product['Product']['name']); ?>
-					<?php if(!$hasCatagory):
-						echo $this->element('CatagoryChip', array(
-   							"catagory" => $product
+					<?php if(!$hasCategory):
+						echo $this->element('CategoryChip', array(
+   							"category" => $product
 						)); 
 					 endif ?>
 			</div>

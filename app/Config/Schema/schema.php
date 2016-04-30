@@ -8,7 +8,7 @@ class AppSchema extends CakeSchema {
 	public function after($event = array()) {
 	}
 
-	public $catagories = array(
+	public $categories = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'unsigned' => true, 'key' => 'primary'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
@@ -28,7 +28,7 @@ class AppSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'details' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'catagory_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
+		'category_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'id_UNIQUE' => array('column' => 'id', 'unique' => 1)

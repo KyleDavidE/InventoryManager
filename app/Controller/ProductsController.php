@@ -14,11 +14,11 @@ class ProductsController extends AppController {
 
   }
   public function items() {
-    $this->set('hasCatagory',array_key_exists('catagory',$this->params['named']));
+    $this->set('hasCategory',array_key_exists('category',$this->params['named']));
    
     $this->Paginator->settings = $this->paginate;
-    if(array_key_exists('catagory',$this->params['named'])){
-      $data = $this->Paginator->paginate('Product',array("catagory_id" => $this->params['named']['catagory']));
+    if(array_key_exists('category',$this->params['named'])){
+      $data = $this->Paginator->paginate('Product',array("category_id" => $this->params['named']['category']));
     }else{
       $data = $this->Paginator->paginate('Product');
     }

@@ -8,22 +8,22 @@ main{
 	flex-grow:1;
 	padding-top:16px;
 }
-.catagory-chip{
+.category-chip{
 	color:#fff;
 }
-.catagory-switcher{
+.category-switcher{
 	display:flex;
 	background-white;
 	background:white;
 	align-items:center;
 	padding:8px;
 }
-.catagory-switcher--chips{
+.category-switcher--chips{
 	flex:1;
 	display:flex;
 	flex-wrap:wrap;
 }
-.catagory-switcher--chips .chip{
+.category-switcher--chips .chip{
 	margin:2px;
 }
 

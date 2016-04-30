@@ -1,30 +1,30 @@
 <?php
-class CatagoriesController extends AppController {
+class CategoriesController extends AppController {
     public $helpers = array('Html', 'Form', 'Js');
     public $components = array('Paginator','RequestHandler');
 
     public $paginate = array(
         'limit' => 25,
         'order' => array(
-            'Catagory.name' => 'asc'
+            'Category.name' => 'asc'
         )
     );
     
     public function chips() {
     	$this->Paginator->settings = $this->paginate;
     	
-    	$data = $this->Paginator->paginate('Catagory');
+    	$data = $this->Paginator->paginate('Category');
     	
-        $this->set('catagories', $data);
+        $this->set('categories', $data);
     }
     public function view($id = null) {
         $named = $this->request->params['named'];
         if (!$id) {
-            throw new NotFoundException(__('Invalid catagory'));
+            throw new NotFoundException(__('Invalid category'));
         }
-        $catagory = $this->Catagory->findById($id);
-        if (!$catagory) {
-            throw new NotFoundException(__('Invalid catagory'));
+        $category = $this->Category->findById($id);
+        if (!$category) {
+            throw new NotFoundException(__('Invalid category'));
         }
         if(array_key_exists('page',$named)){
             $this->set('page',$named['page']);
@@ -33,21 +33,21 @@ class CatagoriesController extends AppController {
         }
 
         
-        $this->set('catagory',$catagory);
+        $this->set('category',$category);
     }
     public function edit($id = null){
         if (!$id) {
-            throw new NotFoundException(__('Invalid catagory'));
+            throw new NotFoundException(__('Invalid category'));
         }
 
-        $catagory = $this->Catagory->findById($id);
-        if (!$catagory) {
-            throw new NotFoundException(__('Invalid catagory'));
+        $category = $this->Category->findById($id);
+        if (!$category) {
+            throw new NotFoundException(__('Invalid category'));
         }
 
         if ($this->request->is(array('post', 'put'))) {
-            $this->Catagory->id = $id;
-            if ($this->Catagory->save($this->request->data)) {
+            $this->Category->id = $id;
+            if ($this->Category->save($this->request->data)) {
                 // $this->Flash->success(__('Your post has been updated.'));
                 return "DONE";
             }
@@ -55,8 +55,8 @@ class CatagoriesController extends AppController {
         }
 
         if (!$this->request->data) {
-            $this->request->data = $catagory;
-            $this->set('catagory',$catagory);
+            $this->request->data = $category;
+            $this->set('category',$category);
         }
     }
 

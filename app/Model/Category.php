@@ -1,4 +1,4 @@
 <?php
-class Catagory extends AppModel {
+class Category extends AppModel {
 	 // public $hasMany = 'Product';
 }
