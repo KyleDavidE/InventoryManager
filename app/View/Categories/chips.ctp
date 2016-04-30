@@ -9,7 +9,7 @@ $this->Paginator->options(array(
 <div class="category-switcher z-depth-1">
 
 <?php
-echo $this->Paginator->prev('<i class="material-icons">chevron_left</i>', array('escape' => false, 'data-magic-link-frame'=>'category-chips'));
+echo $this->Paginator->prev('<i class="material-icons waves-effect waves-circle">chevron_left</i>', array('escape' => false, 'data-magic-link-frame'=>'category-chips'));
 
 ?>
 
@@ -26,7 +26,7 @@ echo $this->Paginator->prev('<i class="material-icons">chevron_left</i>', array(
 </div>
 
 <?php
-echo $this->Paginator->next('<i class="material-icons">chevron_right</i>', array('escape' => false, 'data-magic-link-frame'=>'category-chips'));
+echo $this->Paginator->next('<i class="material-icons waves-effect waves-circle">chevron_right</i>', array('escape' => false, 'data-magic-link-frame'=>'category-chips'));
 
 ?>
 

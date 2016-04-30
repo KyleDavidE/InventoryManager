@@ -46,7 +46,7 @@ $(function() {
                 setTheme(this.value);
             }
         });
-
+        Materialize.updateTextFields();
         $('[data-autosubmit]',scope).each(function(){
             var self = $(this);
             self.find('input').on('change keyup',debounce(250,function(){

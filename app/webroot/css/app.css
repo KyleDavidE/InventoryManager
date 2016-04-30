@@ -15,13 +15,37 @@ main{
 	display:flex;
 	background-white;
 	background:white;
-	align-items:center;
-	padding:8px;
+	
+}
+
+.category-switcher span{
+	display:flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	padding: 8px;
+}
+.category-switcher span a{
+	display:flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	align-self: stretch;
+	flex:1;
+}
+
+.category-switcher span i:not(#a){
+	width: auto;
+	height: auto;
+	line-height: 1em;
+
 }
 .category-switcher--chips{
 	flex:1;
 	display:flex;
 	flex-wrap:wrap;
+
+	padding:8px 0px;
 }
 .category-switcher--chips .chip{
 	margin:2px;
@@ -80,8 +104,11 @@ display:inline-block;
 
 }
 .detail{
-	margin:8px 0px;
-	padding:4px;
+	
+}
+.details-block {
+    display: flex;
+
 }
 
 .color-selector{
