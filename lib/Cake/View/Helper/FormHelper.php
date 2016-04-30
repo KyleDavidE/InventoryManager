@@ -1579,7 +1579,7 @@ class FormHelper extends AppHelper {
 		if (isset($value) && is_bool($value)) {
 			$value = $value ? 1 : 0;
 		}
-
+		
 		$this->_domIdSuffixes = array();
 		foreach ($options as $optValue => $optTitle) {
 			$optionsHere = array('value' => $optValue, 'disabled' => false);
@@ -1592,7 +1592,7 @@ class FormHelper extends AppHelper {
 				$optTitle = $optionsHere['name'];
 				unset($optionsHere['name']);
 			}
-
+			
 			if (isset($value) && strval($optValue) === strval($value)) {
 				$optionsHere['checked'] = 'checked';
 			}

@@ -83,3 +83,54 @@ display:inline-block;
 	margin:8px 0px;
 	padding:4px;
 }
+
+.color-selector{
+	display:flex;
+	flex-wrap:wrap;
+}
+@media (min-width: 1032px){
+	.color-selector{
+		justify-content: center;
+	}
+}
+.color-selector input[type="radio"]+label:not(#a):before{ /* need to bump up priority */
+	content: none;
+}
+
+.color-selector input[type="radio"]+label:not(#a){ /* need to bump up priority */
+	width:32px;
+	height: 32px;
+	padding:0;
+	border-radius: 100%;
+	margin:4px;
+	transition:none;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	-webkit-tap-highlight-color:transparent;
+}
+
+
+.color-selector input[type="radio"]+label:not(#a):after{ /* need to bump up priority */
+	display:inline;
+	width:auto;
+	height: auto;
+	position: static;
+	background: none;
+	content:'check';
+	color:white;
+	font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    border:none;
+}

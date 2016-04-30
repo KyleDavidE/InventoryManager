@@ -35,5 +35,29 @@ class CatagoriesController extends AppController {
         
         $this->set('catagory',$catagory);
     }
+    public function edit($id = null){
+        if (!$id) {
+            throw new NotFoundException(__('Invalid catagory'));
+        }
+
+        $catagory = $this->Catagory->findById($id);
+        if (!$catagory) {
+            throw new NotFoundException(__('Invalid catagory'));
+        }
+
+        if ($this->request->is(array('post', 'put'))) {
+            $this->Catagory->id = $id;
+            if ($this->Catagory->save($this->request->data)) {
+                // $this->Flash->success(__('Your post has been updated.'));
+                return "DONE";
+            }
+            // $this->Flash->error(__('Unable to update your post.'));
+        }
+
+        if (!$this->request->data) {
+            $this->request->data = $catagory;
+            $this->set('catagory',$catagory);
+        }
+    }
 
 }

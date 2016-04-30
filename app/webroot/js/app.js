@@ -19,13 +19,50 @@ $(function() {
         "brown": "#795548",
         "grey": "#9e9e9e"
     };
+    var historyReplaceFull = {
+        "/products/index":"/"
+    }
     var selector = "a[data-magic-link-href], a[data-magic-link-history], a[data-magic-link-frame]";
-
+    function debounce(ms,fn){
+        var lastTimeout = -1;
+        return function(){
+            clearTimeout(lastTimeout);
+            var args = arguments;
+            var scope = this;
+            lastTimeout = setTimeout(function(){
+                fn.apply(scope,args)
+            },ms);
+        }
+    }
     function bindButtons(scope) {
         $(selector, scope).off("click.magicLink").on("click.magicLink", followMagicLink);
         $("a[data-magic-link-go]").off("click.magicLinkGo").on("click.magicLinkGo", magicLinkgo).each(function() {
             this.href = "#" + (this.getAttribute("data-magic-link-go") == 1 ? "forward" : "back"); //1. we need a href for the css to be happy, 2. I like to look at the little preview thing to see what the link does
         });
+
+
+        $('.color-selector input',scope).on('change', function(){
+            if(this.checked){
+                setTheme(this.value);
+            }
+        });
+
+        $('[data-autosubmit]',scope).each(function(){
+            var self = $(this);
+            self.find('input').on('change keyup',debounce(250,function(){
+                console.log("!SEND!");
+                $.ajax({
+                    dataType: "html",
+                    success: function(data, textStatus) {
+                        
+                    },
+                    method: "POST",
+
+                    url: self.attr("action"),
+                    data: self.serialize()
+                });
+            }));
+        })
     }
 
     function magicLinkgo(e) {
@@ -66,7 +103,7 @@ $(function() {
             console.log(config.global);
             history[useHistory == "replace" ? "replaceState" : "pushState"]({
                 wasPushed: useHistory != "replace"
-            }, document.title, config.global);
+            }, document.title, historyReplaceFull[config.global] || config.global);
         }
 
     }
@@ -123,13 +160,15 @@ $(function() {
     }
 
     var metaThemeColor = $('meta[name="theme-color"]');
-
+    function setTheme(themeColor){
+        $('.theme-me').removeClass(Object.keys(mdColors).join(' ')).addClass(themeColor);
+        metaThemeColor.attr('content', mdColors[themeColor]);
+    }
     function updateTheme() {
         var props = $('x-page-props');
         var themeColor = props.data('theme-color') || 'deep-purple';
-
-        $('.theme-me').removeClass(Object.keys(mdColors).join(' ')).addClass(themeColor);
-        metaThemeColor.attr('content', mdColors[themeColor]);
+        setTheme(themeColor);   
+        
         var title = props.data('title') || 'Inventory Manager';
         $('.page-title').text(title);
         $('.back-button').toggle(!!props.data('show-back'))
