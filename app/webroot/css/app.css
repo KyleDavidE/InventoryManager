@@ -104,7 +104,7 @@ display:inline-block;
 
 }
 .detail{
-	
+	flex:1;
 }
 .details-block {
     display: flex;

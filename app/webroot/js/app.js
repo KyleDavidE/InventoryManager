@@ -49,7 +49,7 @@ $(function() {
         Materialize.updateTextFields();
         $('[data-autosubmit]',scope).each(function(){
             var self = $(this);
-            self.find('input').on('change keyup',debounce(250,function(){
+            self.find('input, textarea').on('change keyup',debounce(250,function(){
                 console.log("!SEND!");
                 $.ajax({
                     dataType: "html",
