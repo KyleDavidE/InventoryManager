@@ -64,7 +64,7 @@ $(function() {
             }));
         });
 
-        $('.category-picker').each(function(){
+        $('.category-picker',scope).each(function(){
             var picker = $(this);
             picker.find('.category-picker-chip').on('click',function(){
                 picker.find('.category-picker-chip.active').removeClass('active');
@@ -75,6 +75,11 @@ $(function() {
                 $('input.picker-target').val(self.attr('value')).trigger('change');
                 $('.chip.picker-target').removeClass(Object.keys(mdColors).join(' ')).addClass(color).text(self.text());
             });
+        });
+        $('.active-icon',scope).on('transitionend',function(e){
+            $(this).toggleClass('active',$(this).parent().parent().hasClass('active'));
+        }).on('click',function(){
+            
         });
     }
 
@@ -188,5 +193,4 @@ $(function() {
     }
     bindButtons(document);
     updateTheme();
-    $(".button-collapse").sideNav();
 });

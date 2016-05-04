@@ -196,3 +196,28 @@ x-page-props{
 	-webkit-font-feature-settings: 'liga';
 	-webkit-font-smoothing: antialiased;
 }
+
+.btn-floating>.material-icons{
+	position: absolute;
+	top:0;
+	left:0;
+	will-change:transform opacity;
+	transition:transform 0.4s, opacity 0.4s;
+}
+.fixed-action-btn:not(.active) .active-icon{
+	opacity: 0;
+	transform:rotate(-90deg);
+
+}
+
+.fixed-action-btn.active .inactive-icon{
+	opacity: 0;
+	transform:rotate(90deg);
+
+}
+.fixed-action-btn ul li{
+	margin-bottom: 0;
+}
+.active-icon:not(.active){
+	pointer-events: none;
+}
