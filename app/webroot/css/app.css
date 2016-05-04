@@ -91,6 +91,7 @@ x-page-props{
 #products .collection-item{
 	display: flex;
 	align-items: center;
+	padding-right: 0;
 }
 #products .collection-item span:first-child{
 	flex:1;
@@ -202,7 +203,7 @@ x-page-props{
 	top:0;
 	left:0;
 	will-change:transform opacity;
-	transition:transform 0.4s, opacity 0.4s;
+	transition:transform 0.3s, opacity 0.3s;
 }
 .fixed-action-btn:not(.active) .active-icon{
 	opacity: 0;

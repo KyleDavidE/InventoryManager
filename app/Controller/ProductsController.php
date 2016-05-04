@@ -50,10 +50,10 @@ class ProductsController extends AppController {
       if ($this->request->is(array('post', 'put'))) {
           $this->Product->id = $id;
           if ($this->Product->save($this->request->data)) {
-              // $this->Flash->success(__('Your post has been updated.'));
+              
               return "DONE";
           }
-          // $this->Flash->error(__('Unable to update your post.'));
+          
       }
 
       if (!$this->request->data) {

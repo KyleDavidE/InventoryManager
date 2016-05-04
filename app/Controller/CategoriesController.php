@@ -59,16 +59,19 @@ class CategoriesController extends AppController {
         if ($this->request->is(array('post', 'put'))) {
             $this->Category->id = $id;
             if ($this->Category->save($this->request->data)) {
-                // $this->Flash->success(__('Your post has been updated.'));
                 return "DONE";
             }
-            // $this->Flash->error(__('Unable to update your post.'));
+            
         }
 
-        if (!$this->request->data) {
+        if (!$this->request->data && $category ) {
             $this->request->data = $category;
             $this->set('category',$category);
+
+        }else{
+            $this->set('category', null);
         }
     }
+
 
 }
