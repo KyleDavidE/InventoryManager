@@ -198,22 +198,28 @@ x-page-props{
 	-webkit-font-smoothing: antialiased;
 }
 
-.btn-floating>.material-icons{
+.btn-floating.btn-large>.material-icons{
 	position: absolute;
+	line-height: 55.5px;
 	top:0;
 	left:0;
 	will-change:transform opacity;
 	transition:transform 0.3s, opacity 0.3s;
+	font-size: 1.6rem;
+	width: inherit;
+    display: inline-block;
+    text-align: center;
+    color: #fff;
 }
 .fixed-action-btn:not(.active) .active-icon{
 	opacity: 0;
-	transform:rotate(-90deg);
+	transform:rotate(-170deg);
 
 }
 
 .fixed-action-btn.active .inactive-icon{
 	opacity: 0;
-	transform:rotate(90deg);
+	transform:rotate(170deg);
 
 }
 .fixed-action-btn ul li{

@@ -27,12 +27,12 @@
  */
 	Router::connect('/', array('controller' => 'products', 'action' => 'index'));
 	Router::connect('/categories/new', array('controller' => 'categories', 'action' => 'edit'));
-	
+	Router::connect('/products/new', array('controller' => 'products', 'action' => 'edit'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
+	Router::parseExtensions("json");
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

@@ -49,24 +49,40 @@ $(function() {
         Materialize.updateTextFields();
         $('[data-autosubmit]',scope).each(function(){
             var self = $(this);
-            self.find('input, textarea').on('change keyup',debounce(250,function(){
-                console.log("!SEND!");
+            var findingAction = false;
+            function send(){
+                if(findingAction) return;
+                if(self.data('wait-for-action')){
+                    findingAction = true;
+                }
                 $.ajax({
-                    dataType: "html",
+                    dataType: "json",
                     success: function(data, textStatus) {
-                        
+                        if(self.data('wait-for-action')){
+                            self.data('wait-for-action',false);
+                            self.attr("action",data.updateUrl);
+                            findingAction = false;
+                            history.replaceState( {
+                                wasPushed:false
+                            }, document.title, data.updateUrl);
+                        }
                     },
                     method: "POST",
 
                     url: self.attr("action"),
-                    data: self.serialize()
+                    data:self.serialize()
                 });
+            }
+            self.find('input, textarea').on('change keyup',debounce(250,function(){
+                console.log("!SEND!");
+                send();
             }));
         });
 
         $('.category-picker',scope).each(function(){
             var picker = $(this);
-            picker.find('.category-picker-chip').on('click',function(){
+            var state = $('input.picker-target').val();
+            var chips = picker.find('.category-picker-chip').on('click',function(){
                 picker.find('.category-picker-chip.active').removeClass('active');
                 var self = $(this);
                 self.addClass('active');
@@ -75,11 +91,15 @@ $(function() {
                 $('input.picker-target').val(self.attr('value')).trigger('change');
                 $('.chip.picker-target').removeClass(Object.keys(mdColors).join(' ')).addClass(color).text(self.text());
             });
+            if(state){
+                console.log('state',state);
+                picker.find('.category-picker-chip[value="'+(+state)+'"]').addClass('active');
+            }
         });
         $('.active-icon',scope).on('transitionend',function(e){
             $(this).toggleClass('active',$(this).parent().parent().hasClass('active'));
         }).on('click',function(){
-            
+
         });
     }
 

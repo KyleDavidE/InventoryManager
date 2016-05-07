@@ -19,12 +19,13 @@ class CategoriesController extends AppController {
         $this->set('categories', $data);
         $this->set('isPicker', false);
         if(array_key_exists('picker',$named)){
-            $this->loadModel('Product');
-            $product = $this->Product->findById($named['picker']);
-            if($product){
-                $this->set('isPicker', true);
-                $this->set('pickerTarget', $product);
-            }
+            $this->set('isPicker', true);
+            // $this->loadModel('Product');
+            // $product = $this->Product->findById($named['picker']);
+            // if($product){
+            //     $this->set('isPicker', true);
+            //     $this->set('pickerTarget', $product);
+            // }
             
         }
     }
@@ -47,29 +48,38 @@ class CategoriesController extends AppController {
         $this->set('category',$category);
     }
     public function edit($id = null){
-        if (!$id) {
-            throw new NotFoundException(__('Invalid category'));
-        }
+        // if (!$id) {
+        //     throw new NotFoundException(__('Invalid category'));
+        // }
 
-        $category = $this->Category->findById($id);
-        if (!$category) {
-            throw new NotFoundException(__('Invalid category'));
+        if($id != null){
+            $category = $this->Category->findById($id);
+        }else{
+            $category = null;
         }
+        // if (!$category) {
+        //     throw new NotFoundException(__('Invalid category'));
+        // }
 
         if ($this->request->is(array('post', 'put'))) {
-            $this->Category->id = $id;
+            if($id != null && $category){
+                $this->Category->id = $id;
+            }else{
+                $this->Category->create();
+            } 
             if ($this->Category->save($this->request->data)) {
-                return "DONE";
+                if($id == null) $id = $this->Category->getLastInsertID();
+                $this->set('updateUrl', '/categories/edit/'.$id );
+                $this->set('_serialize', array('updateUrl'));
+
             }
             
         }
 
-        if (!$this->request->data && $category ) {
+        if (!$this->request->data  ) {
             $this->request->data = $category;
             $this->set('category',$category);
 
-        }else{
-            $this->set('category', null);
         }
     }
 

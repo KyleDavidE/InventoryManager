@@ -2,4 +2,6 @@
 
 <?php echo $this->element('detailsBlock',array('item' => $category['Category'])); 
 echo $this->requestAction('/products/items', array('return', 'named' => array('category'=>$category['Category']['id'], 'page' => $page) ));
+
+echo $this->element('fab');
 ?>

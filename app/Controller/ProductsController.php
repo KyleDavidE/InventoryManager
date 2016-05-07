@@ -38,20 +38,32 @@ class ProductsController extends AppController {
     $this->set('products', $data);
   }
   public function edit($id = null){
-      if (!$id) {
-          throw new NotFoundException(__('Invalid product'));
+      // if (!$id) {
+      //     throw new NotFoundException(__('Invalid product'));
+      // }
+      if($id != null){
+        $product = $this->Product->findById($id);
+      }else{
+        $product = null;
       }
-
-      $product = $this->Product->findById($id);
-      if (!$product) {
-          throw new NotFoundException(__('Invalid product'));
-      }
+      
+      // if (!$product) {
+      //     throw new NotFoundException(__('Invalid product'));
+      // }
 
       if ($this->request->is(array('post', 'put'))) {
-          $this->Product->id = $id;
+          if($id != null && $product){
+            $this->Product->id = $id;
+            $this->set('created','no '+ $id);
+          }else{
+            $this->Product->create();
+            $this->set('created','yes');
+          }
           if ($this->Product->save($this->request->data)) {
-              
-              return "DONE";
+            if($id == null) $id = $this->Product->getLastInsertID();
+            $this->set('updateUrl', '/products/edit/'.$id );
+
+            $this->set('_serialize', array('updateUrl'));
           }
           
       }
