@@ -43,7 +43,7 @@ class CategoriesController extends AppController {
         }else{
             $this->set('page',1);
         }
-
+        
         
         $this->set('category',$category);
     }

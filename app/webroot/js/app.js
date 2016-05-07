@@ -21,7 +21,8 @@ $(function() {
     };
     var historyReplaceFull = {
         "/products/index":"/"
-    }
+    };
+    var themeColor;
     var selector = "a[data-magic-link-href], a[data-magic-link-history], a[data-magic-link-frame]";
     function debounce(ms,fn){
         var lastTimeout = -1;
@@ -89,17 +90,32 @@ $(function() {
                 var color = self.data('color');
                 setTheme(color);
                 $('input.picker-target').val(self.attr('value')).trigger('change');
-                $('.chip.picker-target').removeClass(Object.keys(mdColors).join(' ')).addClass(color).text(self.text());
+                $('.chip.picker-target').removeClass(Object.keys(mdColors).join(' ')).show().addClass(color).find('span').text(self.text());
+
             });
             if(state){
                 console.log('state',state);
+
                 picker.find('.category-picker-chip[value="'+(+state)+'"]').addClass('active');
+
+            }else{
+                $('.chip.picker-target').hide();
             }
         });
+        $('.remove-category',scope).click(function(){
+            setTheme('deep-purple');
+            $('.chip.picker-target').removeClass(Object.keys(mdColors).join(' ')).hide().find('span').text('');
+            $('input.picker-target').val('').trigger('change');
+            $('.category-picker-chip.active').removeClass('active');
+        });
+
         $('.active-icon',scope).on('transitionend',function(e){
             $(this).toggleClass('active',$(this).parent().parent().hasClass('active'));
         }).on('click',function(){
 
+        });
+        $('.remove-item',scope).click(function() {
+           removeItem($(this).parent());
         });
     }
 
@@ -108,7 +124,89 @@ $(function() {
         // console.log("MAGIC LINK GO");
         history.go(+this.getAttribute("data-magic-link-go"));
     }
+    function undoableAction(text, action, canceled){
+        var content = $('<span><span class="toast-content"></span><a class="waves-effect waves-light btn-flat text-accent-2 '+themeColor+'-text">undo</a></span>');
+        content.find('.toast-content').text(text);
+        // var doTheAction = true;
+        content.find('a').click(function(){
+            action = function(){}; //do not do the action ever.
+            Vel(content.parent()[0], {"opacity": 0, marginTop: '-40px'}, { duration: 375, //Materialize does not give me a remove toast method.
+                easing: 'easeOutExpo',
+                queue: false,
+                complete: function(){
+                    this[0].parentNode.removeChild(this[0]);
+                }
+            });
+            canceled();
 
+        });
+        Materialize.toast(content, 5000, "", function(){
+            action();
+        });
+    }
+    var removing = [];
+    function removeItem(el){
+        var name = $('span',el).text();
+        var id = el.data('id');
+        el.hide();
+        removing.push(id);
+        function done(){
+            removing.splice(removing.indexOf(id),1);
+        }
+        undoableAction("deleted "+name,function(){
+            $.ajax({
+                dataType: "json",
+                success: function(data, textStatus) {
+                   
+                    done();
+                    if(removing.length == 0){ //if you are in the process of removing another item, don't reload
+                        reload();
+                    }
+                },
+                method: "POST",
+
+                url: '/products/delete/'+id,
+               
+            });
+
+            el.remove();
+          
+        },function(){
+            el.show();
+            done();
+        });
+    }
+    function removeItem(el){
+        var name = $('span',el).text();
+        var id = el.data('id');
+        el.hide();
+        removing.push(id);
+        function done(){
+            removing.splice(removing.indexOf(id),1);
+        }
+        undoableAction("deleted "+name,function(){
+            $.ajax({
+                dataType: "json",
+                success: function(data, textStatus) {
+                   
+                    done();
+                    if(removing.length == 0){ //if you are in the process of removing another item, don't reload
+                        reload();
+                    }
+                },
+                method: "POST",
+
+                url: '/products/delete/'+id,
+               
+            });
+
+            el.remove();
+          
+        },function(){
+            el.show();
+            done();
+        });
+    }
     function followMagicLink(e) {
 
         e.preventDefault();
@@ -150,7 +248,11 @@ $(function() {
             global: document.location
         });
     });
-
+    function reload(){
+        applyState({
+            global: document.location
+        });
+    }
     function addJob(job) {
 
     }
@@ -198,9 +300,11 @@ $(function() {
     }
 
     var metaThemeColor = $('meta[name="theme-color"]');
-    function setTheme(themeColor){
+    function setTheme(_themeColor){
+        themeColor = _themeColor;
         $('.theme-me').removeClass(Object.keys(mdColors).join(' ')).addClass(themeColor);
         metaThemeColor.attr('content', mdColors[themeColor]);
+
     }
     function updateTheme() {
         var props = $('x-page-props');
@@ -213,4 +317,5 @@ $(function() {
     }
     bindButtons(document);
     updateTheme();
+    $(document).off('click.chip');
 });

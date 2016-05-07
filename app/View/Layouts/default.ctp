@@ -63,10 +63,12 @@ $themeColor = 'teal';
 
 			<?php echo $this->fetch('content'); ?>
 		</main>
-		 
+		
 				
 			
-	</div><!-- <footer class="page-footer theme-me"><div class="footer-copyright">
+	</div>
+	<span id="modals"></span>
+	<!-- <footer class="page-footer theme-me"><div class="footer-copyright">
             <div class="container">
             © 2014 Copyright Text
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>

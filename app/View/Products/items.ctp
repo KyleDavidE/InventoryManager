@@ -10,7 +10,7 @@ $this->Paginator->options(array(
 	<?php 
 		if($this->Paginator->hasPrev()) echo $this->element('itemPaginate');
 		foreach ($products as $product): ?>
-		<div class="collection-item">
+		<div class="collection-item" data-id="<?php echo $product['Product']['id'] ?>">
 				<span><?php echo htmlspecialchars($product['Product']['name']); ?></span>
 				<?php if(!$hasCategory):
 					echo $this->element('CategoryChip', array(
@@ -20,6 +20,9 @@ $this->Paginator->options(array(
 				
 				<a href="<?php echo htmlspecialchars($this->Html->url(array('action' => 'edit', $product['Product']['id'])))?>" data-magic-link-frame="content" data-magic-link-history="push" class="waves-effect waves-circle item-button"> 
 					<i class="material-icons">edit</i>
+				</a>
+				<a class="waves-effect waves-circle item-button remove-item"> 
+					<i class="material-icons">delete</i>
 				</a>
 		</div>
 	<?php endforeach; ?>

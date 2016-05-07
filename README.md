@@ -15,3 +15,4 @@
 * [ ] Swich to more "real" data
 * [ ] Clean up code
 * [ ] Auth
+* [ ] Make the fab slide up w/toasts on mobile 
