@@ -43,7 +43,7 @@ class CategoriesController extends AppController {
         }else{
             $this->set('page',1);
         }
-        
+
         
         $this->set('category',$category);
     }
@@ -82,6 +82,17 @@ class CategoriesController extends AppController {
 
         }
     }
+    public function delete($id) {
+        if ($this->request->is('get')) {
+            throw new MethodNotAllowedException();
+        }
 
+        if ($this->Category->delete($id)) {
+            
+        } else {
+            
+        }
+        $this->set('_serialize', array());
+    }
 
 }

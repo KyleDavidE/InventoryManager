@@ -79,13 +79,9 @@ class ProductsController extends AppController {
     }
 
     if ($this->Product->delete($id)) {
-        $this->Flash->success(
-            __('The post with id: %s has been deleted.', h($id))
-        );
+        
     } else {
-        $this->Flash->error(
-            __('The post with id: %s could not be deleted.', h($id))
-        );
+       
     }
     $this->set('_serialize', array());
   }

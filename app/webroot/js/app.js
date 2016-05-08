@@ -117,6 +117,31 @@ $(function() {
         $('.remove-item',scope).click(function() {
            removeItem($(this).parent());
         });
+
+        $('.delete-category',scope).click(function(){
+
+            var content = $('#removeModal')[0] || $('<div class="modal" id="removeModal"><div class="modal-content"><h4>Remove "<span></span>"?</h4>'
+                +'<p>This action can not be undone.</p></div>'
+                +'<div class="modal-footer"><a class="modal-action do-delete modal-close waves-effect btn-flat red-text text-accent-3 ">Delete</a>'
+                +'<a class="modal-action modal-close waves-effect btn-flat ">cancel</a></div></div>');
+            content = $(content);
+            content.find('.do-delete').off('click.delete').on('click.delete',function(){
+                $.ajax({
+                    dataType:'json'
+                    url:document.location.pathname.replace(/view/,'delete'),
+                    method:'POST',
+                    success:function(){
+                        history.go(-1);
+                    }
+                });
+            });
+            content.find('span').text($('.page-title').text());
+
+            content.appendTo('body');
+            
+            content.openModal();
+
+        })
     }
 
     function magicLinkgo(e) {
@@ -125,7 +150,7 @@ $(function() {
         history.go(+this.getAttribute("data-magic-link-go"));
     }
     function undoableAction(text, action, canceled){
-        var content = $('<span><span class="toast-content"></span><a class="waves-effect waves-light btn-flat text-accent-2 '+themeColor+'-text">undo</a></span>');
+        var content = $('<span><span class="toast-content"></span><a class="waves-effect waves-light btn-flat text-accent-2 red-text">undo</a></span>');
         content.find('.toast-content').text(text);
         // var doTheAction = true;
         content.find('a').click(function(){
@@ -145,37 +170,7 @@ $(function() {
         });
     }
     var removing = [];
-    function removeItem(el){
-        var name = $('span',el).text();
-        var id = el.data('id');
-        el.hide();
-        removing.push(id);
-        function done(){
-            removing.splice(removing.indexOf(id),1);
-        }
-        undoableAction("deleted "+name,function(){
-            $.ajax({
-                dataType: "json",
-                success: function(data, textStatus) {
-                   
-                    done();
-                    if(removing.length == 0){ //if you are in the process of removing another item, don't reload
-                        reload();
-                    }
-                },
-                method: "POST",
-
-                url: '/products/delete/'+id,
-               
-            });
-
-            el.remove();
-          
-        },function(){
-            el.show();
-            done();
-        });
-    }
+    
     function removeItem(el){
         var name = $('span',el).text();
         var id = el.data('id');
@@ -265,7 +260,8 @@ $(function() {
             if (jq[0]) {
                 return {
                     elem: jq,
-                    url: frame[2]
+                    url: frame[2],
+                    id: frame[0]
                 };
             } else {
                 useGlobal = true;
@@ -278,7 +274,10 @@ $(function() {
             $.ajax({
                 dataType: "html",
                 success: function(data, textStatus) {
-                    contentFrame.html(data);
+                    contentFrame.html(
+                        data
+
+                    );
                     bindButtons(contentFrame);
                     updateTheme();
                 },
@@ -289,7 +288,7 @@ $(function() {
                 $.ajax({
                     dataType: "html",
                     success: function(data, textStatus) {
-                        frame.elem.html(data);
+                        frame.elem.html(cleanLoadedData(frame.id,data));
                         bindButtons(frame.elem);
                         updateTheme();
                     },
@@ -297,6 +296,12 @@ $(function() {
                 });
             });
         }
+    }
+    function cleanLoadedData(frameid,html){
+        var matchResults = html.match(
+                new RegExp('<div id="'+frameid+'>([\s\S]+)</div>','i')
+            );
+        return matchResults ? matchResults[1] : html;
     }
 
     var metaThemeColor = $('meta[name="theme-color"]');
