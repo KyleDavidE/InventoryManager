@@ -21,10 +21,10 @@ $themeColor = 'teal';
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- THIS IS A TEST -->
+	
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
+		Inventory Manager:
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">

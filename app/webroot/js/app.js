@@ -318,6 +318,7 @@ $(function() {
         
         var title = props.data('title') || 'Inventory Manager';
         $('.page-title').text(title);
+        $('title').text(title + '- Inventory Manager')
         $('.back-button').toggle(!!props.data('show-back'))
     }
     bindButtons(document);

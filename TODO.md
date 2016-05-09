@@ -9,3 +9,4 @@
 * [ ] Clean up code
 * [ ] Auth
 * [ ] Make the fab slide up w/toasts on mobile 
+* [ ] Favicon
