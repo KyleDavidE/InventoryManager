@@ -127,7 +127,7 @@ $(function() {
             content = $(content);
             content.find('.do-delete').off('click.delete').on('click.delete',function(){
                 $.ajax({
-                    dataType:'json'
+                    dataType:'json',
                     url:document.location.pathname.replace(/view/,'delete'),
                     method:'POST',
                     success:function(){
@@ -141,7 +141,7 @@ $(function() {
             
             content.openModal();
 
-        })
+        });
     }
 
     function magicLinkgo(e) {
