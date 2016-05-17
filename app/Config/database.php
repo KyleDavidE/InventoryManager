@@ -83,7 +83,7 @@ class DATABASE_CONFIG {
 		'host' => '127.0.0.1',
 		'login' => 'root',
 		'password' => 'SQLPASS',
-		'database' => 'inventory',
+		'database' => 'test_inventory',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

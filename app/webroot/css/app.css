@@ -4,10 +4,12 @@ body{
 	flex-direction: column;
 	min-height: 100vh;
 }
+
 main{
 	flex-grow:1;
 	padding-top:16px;
 }
+/* CATEGORY SWITCHER */
 .category-chip{
 	color:#fff;
 }
@@ -51,12 +53,7 @@ main{
 	margin:2px;
 }
 
-/*
-if sidebar is used
-header, main, footer {
-	padding-left: 240px;
-}
-*/
+
 @media only screen and (max-width : 992px) {
 	header, main, footer {
 		padding-left: 0;

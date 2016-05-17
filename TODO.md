@@ -6,7 +6,8 @@
 * [X] Remove
 * [X] Setup instructions
 * [X] Swich to more "real" data
-* [ ] Clean up code
+* [X] Clean up code
 * [ ] Auth
 * [ ] Make the fab slide up w/toasts on mobile 
 * [ ] Favicon
+* [ ] Add item count

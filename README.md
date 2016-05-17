@@ -1,13 +1,15 @@
 # Inventory Manager
 
-## Setup instructions
+# Setup instructions
 
 1. Update app/Config/database.php to match your database
 2. Enable the required database connector in your php.ini
 3. Run the contents of `wikipediaToyData.sql` on your database (data from [wikipedia List of toys](https://en.wikipedia.org/wiki/List_of_toys))
 4. Set your apache root directory to this direcory and enable url rewriting. 
 
-## screenshots
+
+
+# screenshots
 
 |Main screen| Category Page |
 |-----------|---------------|

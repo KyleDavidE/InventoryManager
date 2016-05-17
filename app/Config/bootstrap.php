@@ -111,3 +111,6 @@ CakeLog::config('error', array(
 ));
 
 Configure::write('mdColors',array("red", "pink", "purple", "deep-purple", "indigo", "blue", "light-blue", "cyan", "teal", "green", "light-green", "lime", "yellow", "amber", "orange", "deep-orange", "brown", "grey"));
+
+
+Configure::write('defaultColor', 'deep-purple');

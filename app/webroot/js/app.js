@@ -24,7 +24,7 @@ $(function() {
     };
     var themeColor;
     var selector = "a[data-magic-link-href], a[data-magic-link-history], a[data-magic-link-frame]";
-    function debounce(ms,fn){
+    function debounce(ms,fn){ //quick little debounce function.
         var lastTimeout = -1;
         return function(){
             clearTimeout(lastTimeout);
@@ -35,7 +35,7 @@ $(function() {
             },ms);
         }
     }
-    function bindButtons(scope) {
+    function contentUpdated(scope) { //called when any major part of the page is updated
         $(selector, scope).off("click.magicLink").on("click.magicLink", followMagicLink);
         $("a[data-magic-link-go]").off("click.magicLinkGo").on("click.magicLinkGo", magicLinkgo).each(function() {
             this.href = "#" + (this.getAttribute("data-magic-link-go") == 1 ? "forward" : "back"); //1. we need a href for the css to be happy, 2. I like to look at the little preview thing to see what the link does
@@ -115,7 +115,7 @@ $(function() {
 
         });
         $('.remove-item',scope).click(function() {
-           removeItem($(this).parent());
+           removeProduct($(this).parent());
         });
 
         $('.delete-category',scope).click(function(){
@@ -144,17 +144,17 @@ $(function() {
         });
     }
 
-    function magicLinkgo(e) {
+    function magicLinkgo(e) { //magic history.go ie forwards / back link
         e.preventDefault();
         // console.log("MAGIC LINK GO");
         history.go(+this.getAttribute("data-magic-link-go"));
     }
-    function undoableAction(text, action, canceled){
+    function undoableAction(text, action, canceled){ //delay an action based on a toast
         var content = $('<span><span class="toast-content"></span><a class="waves-effect waves-light btn-flat text-accent-2 red-text">undo</a></span>');
         content.find('.toast-content').text(text);
         // var doTheAction = true;
         content.find('a').click(function(){
-            action = function(){}; //do not do the action ever.
+            action = function(){}; //do not do the action ever. (should not be a problem unless the timer runs out during the animation)
             Vel(content.parent()[0], {"opacity": 0, marginTop: '-40px'}, { duration: 375, //Materialize does not give me a remove toast method.
                 easing: 'easeOutExpo',
                 queue: false,
@@ -171,7 +171,7 @@ $(function() {
     }
     var removing = [];
     
-    function removeItem(el){
+    function removeProduct(el){ 
         var name = $('span',el).text();
         var id = el.data('id');
         el.hide();
@@ -224,12 +224,12 @@ $(function() {
         }
         var config = {
             frames: [
-                [frameId == "content" ? "useGlobal" : frameId, contentHref, contentHref || href]
+                [frameId == "content" ? "useGlobal" : frameId, contentHref || href]
             ],
 
             global: (contentHref || frameId == "content") ? href : null //if no info is given assume that there is no global link and the one given is the scoped link
         }
-        applyState(config);
+        updateMagicContent(config);
         if (config.global && useHistory) {
             console.log(config.global);
             history[useHistory == "replace" ? "replaceState" : "pushState"]({
@@ -239,12 +239,12 @@ $(function() {
 
     }
     $(window).on('popstate', function(e) {
-        applyState({
+        updateMagicContent({
             global: document.location
         });
     });
     function reload(){
-        applyState({
+        updateMagicContent({
             global: document.location
         });
     }
@@ -253,14 +253,14 @@ $(function() {
     }
     var contentFrame = $("#content");
 
-    function applyState(state) {
-        var useGlobal = !state.frames;
-        var frames = (state.frames || []).map(function(frame) {
+    function updateMagicContent(config) { //upply content to part of the frame
+        var useGlobal = !config.frames;
+        var frames = (config.frames || []).map(function(frame) {
             var jq = $('#' + frame[0]);
             if (jq[0]) {
                 return {
                     elem: jq,
-                    url: frame[2],
+                    url: frame[1],
                     id: frame[0]
                 };
             } else {
@@ -270,7 +270,7 @@ $(function() {
 
         });
         if (useGlobal) {
-            if (!state.global);
+            if (!config.global);
             $.ajax({
                 dataType: "html",
                 success: function(data, textStatus) {
@@ -278,10 +278,10 @@ $(function() {
                         data
 
                     );
-                    bindButtons(contentFrame);
-                    updateTheme();
+                    contentUpdated(contentFrame);
+                    updatePageMeta();
                 },
-                url: state.global
+                url: config.global
             });
         } else {
             frames.map(function(frame) {
@@ -289,15 +289,15 @@ $(function() {
                     dataType: "html",
                     success: function(data, textStatus) {
                         frame.elem.html(cleanLoadedData(frame.id,data));
-                        bindButtons(frame.elem);
-                        updateTheme();
+                        contentUpdated(frame.elem);
+                        updatePageMeta();
                     },
                     url: frame.url
                 });
             });
         }
     }
-    function cleanLoadedData(frameid,html){
+    function cleanLoadedData(frameid,html){ //strip redundant <div>s
         var matchResults = html.match(
                 new RegExp('<div id="'+frameid+'>([\s\S]+)</div>','i')
             );
@@ -305,23 +305,23 @@ $(function() {
     }
 
     var metaThemeColor = $('meta[name="theme-color"]');
-    function setTheme(_themeColor){
+    function setTheme(_themeColor){ //set theme color
         themeColor = _themeColor;
         $('.theme-me').removeClass(Object.keys(mdColors).join(' ')).addClass(themeColor);
         metaThemeColor.attr('content', mdColors[themeColor]);
 
     }
-    function updateTheme() {
+    function updatePageMeta() { //update page meta info (title, color etc)
         var props = $('x-page-props');
         var themeColor = props.data('theme-color') || 'deep-purple';
         setTheme(themeColor);   
         
         var title = props.data('title') || 'Inventory Manager';
         $('.page-title').text(title);
-        $('title').text(title + '- Inventory Manager')
-        $('.back-button').toggle(!!props.data('show-back'))
+        $('title').text(title + '- Inventory Manager');
+        $('.back-button').toggle(!!props.data('show-back'));
     }
-    bindButtons(document);
-    updateTheme();
-    $(document).off('click.chip');
+    contentUpdated(document);
+    updatePageMeta();
+    $(document).off('click.chip'); //disable default meterialize behaviors
 });
